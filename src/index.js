@@ -653,13 +653,14 @@ class LocalstackPlugin {
     const plugin = this.findPlugin('ServerlessStepFunctions');
     if (plugin) {
       const endpoint = this.getServiceURL()
+      const endpointInfo = plugin.endpointInfo;
       plugin.originalDisplay = plugin.display;
       plugin.localstackEndpoint = endpoint;
 
       const newDisplay = function () {
         const regex = /.*:\/\/([^.]+)\.execute-api[^/]+\/([^/]+)(\/.*)?/g;
         let newEndpoint = this.localstackEndpoint +'/restapis/$1/$2/_user_request_$3'
-        this.endpointInfo = this.endpointInfo.replace(regex, newEndpoint)
+        this.endpointInfo = endpointInfo.replace(regex, newEndpoint)
         this.originalDisplay();
       }
       
